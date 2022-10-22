@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/619ed2d462.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <input type="text" class="text-input" value="0">
+        <hr>
+        <div class="row">
+          <button class="no-second-number" value="tan">tan</button>
+          <button class="no-second-number" value="sqrt">√</button>
+          <button id="clear-btn">C</button>
+          <button id="erase-btn">
+            <i class="fa-solid fa-delete-left"></i>
+          </button>
+        </div>
+        <div class="row">
+          <button class="no-second-number" value="sin">sin</button>
+          <button class="no-second-number" value="log">ln</button>
+          <button class="print-value" value="PI">π</button>
+          <button class="print-value" value="E">e</button>
+        </div>
+        <div class="row">
+          <button class="no-second-number" value="cos">cos</button>
+          <button class="no-second-number" value="log10">lg</button>
+          <button id="factorial">x!</button>
+          <button id="pow-operator" value="pow">x^y</button>
+        </div>
+        <div class="row">
+          <button value="7" class="number">7</button>
+          <button value="8" class="number">8</button>
+          <button value="9" class="number">9</button>
+          <button value="x" id="multiply">x</button>
+        </div>
+        <div class="row">
+          <button value="4" class="number">4</button>
+          <button value="5" class="number">5</button>
+          <button value="6" class="number">6</button>
+          <button value="-" class="basic-operator">-</button>
+        </div>
+        <div class="row">
+          <button value="1" class="number">1</button>
+          <button value="2" class="number">2</button>
+          <button value="3" class="number">3</button>
+          <button value="+" class="basic-operator">+</button>
+        </div>
+        <div class="row">
+          <button value="." id="decimal">.</button>
+          <button value="0" id="zero">0</button>
+          <button value="=" id="result-btn">=</button>
+          <button value="/" class="basic-operator">/</button>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+    <script src="keyboard.js"></script>
+  </body>
+</html>
