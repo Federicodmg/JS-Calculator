@@ -174,14 +174,14 @@ document.querySelector("#pow-operator").addEventListener("click", function (e) {
 
 directPrint.forEach(btn => {
     btn.addEventListener("click", function (e) {
-        const value = e.target.value;
+        const printValue = Math[e.target.value].toFixed(6).toString();
 
-        if (!hasOperator) {
-            input.value = Math[value].toFixed(6).toString();
-            firstNumber = Math[value].toFixed(6).toString();
-        } else if (hasOperator) {
-            input.value = `${firstNumber}${operator}${Math[value].toFixed(6).toString()}`;
-            secondNumber = Math[value].toFixed(6).toString();
+        if (!hasOperator && !firstNumber) {
+            input.value = printValue;
+            firstNumber = printValue;
+        } else if (hasOperator && !secondNumber) {
+            input.value = `${firstNumber}${operator}${printValue}`;
+            secondNumber = printValue;
         }
     });
 });

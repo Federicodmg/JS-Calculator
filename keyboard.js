@@ -46,13 +46,17 @@ function keyboardClear() {
 }
 
 function keyboardDirectPrint(e, operation) {
-    if (!hasOperator) {
-        input.value = Math[operation].toFixed(6).toString();
-        firstNumber = Math[operation].toFixed(6).toString();
+    let printResult = Math[operation].toFixed(6).toString();
+
+    if (!hasOperator && !firstNumber) {
+        input.value = printResult;
+        firstNumber = printResult;
         e.preventDefault();
-    } else if (hasOperator) {
-        input.value = `${firstNumber}${operator}${Math[operation].toFixed(6).toString()}`;
-        secondNumber = Math[operation].toFixed(6).toString();
+    } else if (hasOperator && !secondNumber) {
+        input.value = `${firstNumber}${operator}${printResult}`;
+        secondNumber = printResult;
+        e.preventDefault();
+    } else {
         e.preventDefault();
     }
 }
