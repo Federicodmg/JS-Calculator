@@ -28,3 +28,5 @@ It also has full keyboard support, with the following keybinds (besides the regu
 8) n -> Math.log()
 9) p -> Math.PI()
 10) e -> Math.E()
+
+PD: This calculator does not include parentheses or proper evaluation of factorials with decimal numbers, as those functions I cannot write myself and therefore would rather not copy paste from the internet as if I knew what they did.
