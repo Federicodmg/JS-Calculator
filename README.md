@@ -16,3 +16,15 @@ Operations are divided into many groups :
 8) "print-value", which prints E or PI.
 9) "clear-btn", which resets the calculator.
 10) "erase-btn", which deletes the last user input.
+
+It also has full keyboard support, with the following keybinds (besides the regular calculator ones) :
+1) q -> Math.sqrt()
+2) s -> Math.sin()
+3) o -> Math.cos()
+4) t -> Math.tan()
+5) ^ -> Math.pow()
+6) ! -> a function that returns the factorial of the number that was input before.
+7) l -> Math.log10()
+8) n -> Math.log()
+9) p -> Math.PI()
+10) e -> Math.E()
