@@ -17,17 +17,17 @@ document.querySelector(".text-input").addEventListener("keydown", (e) => {
     } else if (e.key == ".") {
         keyboardDecimal(e);
     } else if (e.key == "l") {
-        noSecondNumberOperations(e, "log10");
+        oneArgumentFunctions(e, "log10");
     } else if (e.key == "n") {
-        noSecondNumberOperations(e, "log");
+        oneArgumentFunctions(e, "log");
     } else if (e.key == "q") {
-        noSecondNumberOperations(e, "sqrt");
+        oneArgumentFunctions(e, "sqrt");
     } else if (e.key == "s") {
-        noSecondNumberOperations(e, "sin");
+        oneArgumentFunctions(e, "sin");
     } else if (e.key == "o") {
-        noSecondNumberOperations(e, "cos");
+        oneArgumentFunctions(e, "cos");
     } else if (e.key == "t") {
-        noSecondNumberOperations(e, "tan");
+        oneArgumentFunctions(e, "tan");
     } else if (e.key == "e") {
         keyboardDirectPrint(e, "E");
     } else if (e.key == "p") {
@@ -57,7 +57,7 @@ function keyboardDirectPrint(e, operation) {
     }
 }
 
-function noSecondNumberOperations(e, operation) {
+function oneArgumentFunctions(e, operation) {
     if (!operator && input.value == "") {
         e.preventDefault();
         return;
@@ -67,22 +67,27 @@ function noSecondNumberOperations(e, operation) {
         return;
     }
 
-    let currentOperation = Math[operation],
-        firstNumberOperation = currentOperation(input.value),
-        secondNumberOperation = currentOperation(secondNumber);
+    let currentFunction = Math[operation],
+        firstNumberFunction = currentFunction(input.value).toFixed(6).toString(),
+        secondNumberFunction = currentFunction(secondNumber).toFixed(6).toString();
 
+    console.log(secondNumberFunction);
     if (!hasOperator) {
-        input.value = firstNumberOperation.toFixed(6).toString();
-        firstNumber = firstNumberOperation.toFixed(6).toString();
+        input.value = firstNumberFunction;
+        firstNumber = firstNumberFunction;
         e.preventDefault();
     } else if (hasOperator) {
-        if (secondNumberOperation.toString().charAt(0) == "-") {
-            input.value = `${firstNumber}${secondNumberOperation.toFixed(6).toString()}`;
-            secondNumber = secondNumberOperation.toFixed(6).toString();
+        if (secondNumberFunction.charAt(0) == "-" && operator != "-") {
+            input.value = `${firstNumber}${secondNumberFunction}`;
+            secondNumber = secondNumberFunction;
+            e.preventDefault();
+        } else if (secondNumberFunction.charAt(0) == "-" && operator == "-") {
+            input.value = `${firstNumber}+${secondNumberFunction.slice(1)}`;
+            secondNumber = secondNumberFunction;
             e.preventDefault();
         } else {
-            input.value = `${firstNumber}${operator}${secondNumberOperation.toFixed(6).toString()}`;
-            secondNumber = secondNumberOperation.toFixed(6).toString();
+            input.value = `${firstNumber}${operator}${secondNumberFunction}`;
+            secondNumber = secondNumberFunction;
             e.preventDefault();
         }
     }

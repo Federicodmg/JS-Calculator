@@ -9,6 +9,7 @@ let firstNumber = "",
     operatorBtn = document.querySelectorAll(".basic-operator"),
     input = document.querySelector("input");
 
+
 function operate(num1, operation, num2) {
     switch (operation) {
         case "-":
@@ -46,6 +47,7 @@ document.getElementById("clear-btn").addEventListener("click", clearInput);
 
 document.getElementById("result-btn").addEventListener("click", (e) => {
     if (!operator && !secondNumber || operator && !secondNumber) return;
+
     let result = (operate(+firstNumber, operator, +secondNumber));
     operator = "";
     hasOperator = false;
@@ -61,53 +63,57 @@ document.getElementById("result-btn").addEventListener("click", (e) => {
 });
 
 document.getElementById("zero").addEventListener("click", e => {
+    const value = e.target.value;
+
     if (!hasOperator && input.value != "0") {
-        firstNumber += e.target.value;
-        input.value += e.target.value;
-    }
-    if (hasOperator && input.value.charAt(operatorIndex + 1) != "0") {
-        secondNumber += e.target.value;
-        input.value += e.target.value;
+        firstNumber += value;
+        input.value += value;
+    } else if (hasOperator && input.value.charAt(operatorIndex + 1) != "0") {
+        secondNumber += value;
+        input.value += value;
     }
 });
 
 numberBtn.forEach(btn => {
     btn.addEventListener("click", e => {
+        const value = e.target.value;
+
         if (!hasOperator && input.value == "0") {
-            input.value = e.target.value;
-            firstNumber = e.target.value;
+            input.value = value;
+            firstNumber = value;
         } else if (!hasOperator) {
-            input.value += e.target.value;
-            firstNumber += e.target.value;
+            input.value += value;
+            firstNumber += value;
         } else if (hasOperator) {
-            input.value += e.target.value;
-            secondNumber += e.target.value;
+            input.value += value;
+            secondNumber += value;
         }
     });
 });
 
 operatorBtn.forEach(btn => {
     btn.addEventListener("click", e => {
+        const value = e.target.value;
         if (!operator && input.value.slice(-1) == ".") return;
 
-        if (!operator && !firstNumber && e.target.value != "-") {
+        if (!operator && !firstNumber && value != "-") {
             return;
         } else if (!operator && !firstNumber) {
-            input.value = e.target.value;
+            input.value = value;
         } else if (!operator) {
             operatorIndex = input.value.length;
             firstNumber = input.value;
-            operator = e.target.value;
-            input.value += e.target.value;
+            operator = value;
+            input.value += value;
             hasOperator = true;
         } else if (operator && !secondNumber) {
-            operator = e.target.value;
+            operator = value;
             input.value = input.value.slice(0, -1);
-            input.value += e.target.value;
+            input.value += value;
         } else if (firstNumber && secondNumber) {
             let result = (operate(+firstNumber, operator, +secondNumber));
-            operator = e.target.value;
-            input.value = `${result.toString()}${e.target.value}`;
+            operator = value;
+            input.value = `${result.toString()}${value}`;
             firstNumber = result.toString();
             secondNumber = "";
         }
@@ -115,6 +121,8 @@ operatorBtn.forEach(btn => {
 });
 
 document.querySelector("#multiply").addEventListener("click", function (e) {
+    const value = e.target.value;
+
     if (!operator && input.value.slice(-1) == ".") return;
 
     if (!operator && !firstNumber) {
@@ -122,16 +130,16 @@ document.querySelector("#multiply").addEventListener("click", function (e) {
     } else if (!operator) {
         operatorIndex = input.value.length;
         firstNumber = input.value;
-        operator = e.target.value;
+        operator = value;
         input.value += "x";
         hasOperator = true;
     } else if (operator && !secondNumber) {
-        operator = e.target.value;
+        operator = value;
         input.value = input.value.slice(0, -1);
         input.value += "x";
     } else if (firstNumber && secondNumber) {
         let result = (operate(+firstNumber, operator, +secondNumber));
-        operator = e.target.value;
+        operator = value;
         input.value = `${result.toString()}x`;
         firstNumber = result.toString();
         secondNumber = "";
@@ -139,6 +147,8 @@ document.querySelector("#multiply").addEventListener("click", function (e) {
 });
 
 document.querySelector("#pow-operator").addEventListener("click", function (e) {
+    const value = e.target.value;
+
     if (!operator && input.value.slice(-1) == ".") return;
 
     if (!operator && !firstNumber) {
@@ -146,16 +156,16 @@ document.querySelector("#pow-operator").addEventListener("click", function (e) {
     } else if (!operator) {
         operatorIndex = input.value.length;
         firstNumber = input.value;
-        operator = e.target.value;
+        operator = value;
         input.value += "^";
         hasOperator = true;
     } else if (operator && !secondNumber) {
-        operator = e.target.value;
+        operator = value;
         input.value = input.value.slice(0, -1);
         input.value += "^";
     } else if (firstNumber && secondNumber) {
         let result = (operate(+firstNumber, operator, +secondNumber));
-        operator = e.target.value;
+        operator = value;
         input.value = `${result.toString()}^`;
         firstNumber = result.toString();
         secondNumber = "";
@@ -164,12 +174,14 @@ document.querySelector("#pow-operator").addEventListener("click", function (e) {
 
 directPrint.forEach(btn => {
     btn.addEventListener("click", function (e) {
+        const value = e.target.value;
+
         if (!hasOperator) {
-            input.value = Math[e.target.value].toFixed(6).toString();
-            firstNumber = Math[e.target.value].toFixed(6).toString();
+            input.value = Math[value].toFixed(6).toString();
+            firstNumber = Math[value].toFixed(6).toString();
         } else if (hasOperator) {
-            input.value = `${firstNumber}${operator}${Math[e.target.value].toFixed(6).toString()}`;
-            secondNumber = Math[e.target.value].toFixed(6).toString();
+            input.value = `${firstNumber}${operator}${Math[value].toFixed(6).toString()}`;
+            secondNumber = Math[value].toFixed(6).toString();
         }
     });
 });
@@ -179,20 +191,23 @@ noSecondNumber.forEach(btn => {
         if (!operator && input.value == "") return;
         if (operator && !secondNumber) return;
 
-        let currentOperation = Math[e.target.value],
-            firstNumberOperation = currentOperation(input.value),
-            secondNumberOperation = currentOperation(secondNumber);
+        let currentFunction = Math[e.target.value],
+            firstNumberFunction = currentFunction(input.value).toFixed(6).toString(),
+            secondNumberFunction = currentFunction(secondNumber).toFixed(6).toString();
 
         if (!hasOperator) {
-            input.value = firstNumberOperation.toFixed(6).toString();
-            firstNumber = firstNumberOperation.toFixed(6).toString();
+            input.value = firstNumberFunction;
+            firstNumber = firstNumberFunction;
         } else if (hasOperator) {
-            if (secondNumberOperation.toString().charAt(0) == "-") {
-                input.value = `${firstNumber}${secondNumberOperation.toFixed(6).toString()}`;
-                secondNumber = secondNumberOperation.toFixed(6).toString();
+            if (secondNumberFunction.charAt(0) == "-" && operator != "-") {
+                input.value = `${firstNumber}${secondNumberFunction}`;
+                secondNumber = secondNumberFunction;
+            } else if (secondNumberFunction.charAt(0) == "-" && operator == "-") {
+                input.value = `${firstNumber}+${secondNumberFunction.slice(1)}`;
+                secondNumber = secondNumberFunction;
             } else {
-                input.value = `${firstNumber}${operator}${secondNumberOperation.toFixed(6).toString()}`;
-                secondNumber = secondNumberOperation.toFixed(6).toString();
+                input.value = `${firstNumber}${operator}${secondNumberFunction}`;
+                secondNumber = secondNumberFunction;
             }
         }
     });
@@ -224,17 +239,18 @@ document.querySelector("#erase-btn").addEventListener("click", () => {
 });
 
 document.querySelector("#decimal").addEventListener("click", function (e) {
+    const value = e.target.value;
     let secondSection = input.value.slice(operatorIndex);
 
     if (!hasOperator && !input.value.includes(".")) {
-        input.value += e.target.value;
-        firstNumber += e.target.value;
+        input.value += value;
+        firstNumber += value;
     } else if (hasOperator && !secondNumber) {
-        input.value += `0${e.target.value}`;
-        secondNumber += e.target.value;
+        input.value += `0${value}`;
+        secondNumber += value;
     } else if (hasOperator && !secondSection.includes(".")) {
-        input.value += e.target.value;
-        secondNumber += e.target.value;
+        input.value += value;
+        secondNumber += value;
     }
 });
 
