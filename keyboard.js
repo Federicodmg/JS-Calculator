@@ -1,37 +1,12 @@
+const nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const basicOperations = ["+", "x", "*", "/", "-", "^"];
+
 document.querySelector(".text-input").addEventListener("keydown", (e) => {
-    if (e.key == "=") {
-        keyboardBasicOperations(e);
-    } else if (e.key == "+") {
-        keyboardBasicOperations(e);
-    } else if (e.key == "x") {
-        keyboardBasicOperations(e);
-    } else if (e.key == "*") {
-        keyboardBasicOperations(e);
-    } else if (e.key == "/") {
-        keyboardBasicOperations(e);
-    } else if (e.key == "-") {
-        keyboardBasicOperations(e);
-    } else if (e.key == "^") {
+    if (basicOperations.includes(e.key)) {
         keyboardBasicOperations(e);
     } else if (e.key == "Enter") {
         keyboardOperate();
-    } else if (e.key == "1") {
-        keyboardNumbers(e);
-    } else if (e.key == "2") {
-        keyboardNumbers(e);
-    } else if (e.key == "3") {
-        keyboardNumbers(e);
-    } else if (e.key == "4") {
-        keyboardNumbers(e);
-    } else if (e.key == "5") {
-        keyboardNumbers(e);
-    } else if (e.key == "6") {
-        keyboardNumbers(e);
-    } else if (e.key == "7") {
-        keyboardNumbers(e);
-    } else if (e.key == "8") {
-        keyboardNumbers(e);
-    } else if (e.key == "9") {
+    } else if (nums.includes(e.key)) {
         keyboardNumbers(e);
     } else if (e.key == "0") {
         keyboardZero(e);
@@ -72,12 +47,12 @@ function keyboardClear() {
 
 function keyboardDirectPrint(e, operation) {
     if (!hasOperator) {
-        input.value = Math[operation].toFixed(2).toString();
-        firstNumber = Math[operation].toFixed(2).toString();
+        input.value = Math[operation].toFixed(6).toString();
+        firstNumber = Math[operation].toFixed(6).toString();
         e.preventDefault();
     } else if (hasOperator) {
-        input.value = `${firstNumber}${operator}${Math[operation].toFixed(2).toString()}`;
-        secondNumber = Math[operation].toFixed(2).toString();
+        input.value = `${firstNumber}${operator}${Math[operation].toFixed(6).toString()}`;
+        secondNumber = Math[operation].toFixed(6).toString();
         e.preventDefault();
     }
 }
@@ -92,16 +67,24 @@ function noSecondNumberOperations(e, operation) {
         return;
     }
 
-    let currentOperation = Math[operation];
+    let currentOperation = Math[operation],
+        firstNumberOperation = currentOperation(input.value),
+        secondNumberOperation = currentOperation(secondNumber);
 
     if (!hasOperator) {
-        input.value = currentOperation(input.value).toFixed(2).toString();
-        firstNumber = currentOperation(input.value).toFixed(2).toString();
+        input.value = firstNumberOperation.toFixed(6).toString();
+        firstNumber = firstNumberOperation.toFixed(6).toString();
         e.preventDefault();
     } else if (hasOperator) {
-        input.value = `${firstNumber}${operator}${currentOperation(+secondNumber).toFixed(2).toString()}`;
-        secondNumber = currentOperation(+secondNumber).toFixed(2).toString();
-        e.preventDefault();
+        if (secondNumberOperation.toString().charAt(0) == "-") {
+            input.value = `${firstNumber}${secondNumberOperation.toFixed(6).toString()}`;
+            secondNumber = secondNumberOperation.toFixed(6).toString();
+            e.preventDefault();
+        } else {
+            input.value = `${firstNumber}${operator}${secondNumberOperation.toFixed(6).toString()}`;
+            secondNumber = secondNumberOperation.toFixed(6).toString();
+            e.preventDefault();
+        }
     }
 }
 
@@ -111,7 +94,12 @@ function keyboardBasicOperations(e) {
         return;
     }
 
-    if (!operator) {
+    if (!operator && !firstNumber && e.key != "-") {
+        e.preventDefault();
+    } else if (!operator && !firstNumber) {
+        input.value = e.key;
+        e.preventDefault();
+    } else if (!operator) {
         operatorIndex = input.value.length;
         firstNumber = input.value;
         operator = e.key;
@@ -185,8 +173,8 @@ function keyboardOperate() {
     hasOperator = false;
 
     if (result.toString().includes(".") && result.toString().length > 8) {
-        input.value = result.toFixed(2).toString();
-        firstNumber = result.toFixed(2).toString();
+        input.value = result.toFixed(6).toString();
+        firstNumber = result.toFixed(6).toString();
     } else {
         input.value = result.toString();
         firstNumber = result.toString();

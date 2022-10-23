@@ -51,8 +51,8 @@ document.getElementById("result-btn").addEventListener("click", (e) => {
     hasOperator = false;
 
     if (result.toString().includes(".") && result.toString().length > 8) {
-        input.value = result.toFixed(2).toString();
-        firstNumber = result.toFixed(2).toString();
+        input.value = result.toFixed(6).toString();
+        firstNumber = result.toFixed(6).toString();
     } else {
         input.value = result.toString();
         firstNumber = result.toString();
@@ -90,7 +90,11 @@ operatorBtn.forEach(btn => {
     btn.addEventListener("click", e => {
         if (!operator && input.value.slice(-1) == ".") return;
 
-        if (!operator) {
+        if (!operator && !firstNumber && e.target.value != "-") {
+            return;
+        } else if (!operator && !firstNumber) {
+            input.value = e.target.value;
+        } else if (!operator) {
             operatorIndex = input.value.length;
             firstNumber = input.value;
             operator = e.target.value;
@@ -113,7 +117,9 @@ operatorBtn.forEach(btn => {
 document.querySelector("#multiply").addEventListener("click", function (e) {
     if (!operator && input.value.slice(-1) == ".") return;
 
-    if (!operator) {
+    if (!operator && !firstNumber) {
+        return;
+    } else if (!operator) {
         operatorIndex = input.value.length;
         firstNumber = input.value;
         operator = e.target.value;
@@ -135,7 +141,9 @@ document.querySelector("#multiply").addEventListener("click", function (e) {
 document.querySelector("#pow-operator").addEventListener("click", function (e) {
     if (!operator && input.value.slice(-1) == ".") return;
 
-    if (!operator) {
+    if (!operator && !firstNumber) {
+        return;
+    } else if (!operator) {
         operatorIndex = input.value.length;
         firstNumber = input.value;
         operator = e.target.value;
@@ -157,11 +165,11 @@ document.querySelector("#pow-operator").addEventListener("click", function (e) {
 directPrint.forEach(btn => {
     btn.addEventListener("click", function (e) {
         if (!hasOperator) {
-            input.value = Math[e.target.value].toFixed(2).toString();
-            firstNumber = Math[e.target.value].toFixed(2).toString();
+            input.value = Math[e.target.value].toFixed(6).toString();
+            firstNumber = Math[e.target.value].toFixed(6).toString();
         } else if (hasOperator) {
-            input.value = `${firstNumber}${operator}${Math[e.target.value].toFixed(2).toString()}`;
-            secondNumber = Math[e.target.value].toFixed(2).toString();
+            input.value = `${firstNumber}${operator}${Math[e.target.value].toFixed(6).toString()}`;
+            secondNumber = Math[e.target.value].toFixed(6).toString();
         }
     });
 });
@@ -171,14 +179,21 @@ noSecondNumber.forEach(btn => {
         if (!operator && input.value == "") return;
         if (operator && !secondNumber) return;
 
-        let currentOperation = Math[e.target.value];
+        let currentOperation = Math[e.target.value],
+            firstNumberOperation = currentOperation(input.value),
+            secondNumberOperation = currentOperation(secondNumber);
 
         if (!hasOperator) {
-            input.value = currentOperation(input.value).toFixed(2).toString();
-            firstNumber = currentOperation(input.value).toFixed(2).toString();
+            input.value = firstNumberOperation.toFixed(6).toString();
+            firstNumber = firstNumberOperation.toFixed(6).toString();
         } else if (hasOperator) {
-            input.value = `${firstNumber}${operator}${currentOperation(+secondNumber).toFixed(2).toString()}`;
-            secondNumber = currentOperation(+secondNumber).toFixed(2).toString();
+            if (secondNumberOperation.toString().charAt(0) == "-") {
+                input.value = `${firstNumber}${secondNumberOperation.toFixed(6).toString()}`;
+                secondNumber = secondNumberOperation.toFixed(6).toString();
+            } else {
+                input.value = `${firstNumber}${operator}${secondNumberOperation.toFixed(6).toString()}`;
+                secondNumber = secondNumberOperation.toFixed(6).toString();
+            }
         }
     });
 });
